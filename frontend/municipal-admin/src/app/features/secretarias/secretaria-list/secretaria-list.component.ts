@@ -3,8 +3,9 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { Secretaria } from '../../../core/models/secretaria.model';
 import { SecretariaService } from '../../../core/services/secretaria.service';
@@ -19,6 +20,7 @@ import { exportToCsv } from '../../../shared/utils/csv.util';
     MatButtonModule,
     MatCardModule,
     MatIconModule,
+    MatPaginatorModule,
     MatSnackBarModule,
     MatTableModule,
     SecretariaFormComponent,
