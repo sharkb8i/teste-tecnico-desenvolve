@@ -1,36 +1,24 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatCardModule } from '@angular/material/card';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
 import { Secretaria } from '../../../core/models/secretaria.model';
 import { SecretariaService } from '../../../core/services/secretaria.service';
 
 @Component({
   selector: 'app-secretaria-form',
-  template: `
-    <mat-card>
-    <form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid">
-    <mat-form-field appearance="outline">
-    <mat-label>Nome</mat-label>
-    <input matInput formControlName="nome" required>
-    <mat-error *ngIf="form.get('nome')?.hasError('required')">Obrigatório</mat-error>
-    </mat-form-field>
-
-
-    <mat-form-field appearance="outline">
-    <mat-label>Sigla</mat-label>
-    <input matInput formControlName="sigla" required>
-    <mat-error *ngIf="form.get('sigla')?.hasError('required')">Obrigatório</mat-error>
-    </mat-form-field>
-
-
-    <div class="actions">
-    <button mat-raised-button color="primary" [disabled]="form.invalid">{{editing ? 'Salvar' : 'Cadastrar'}}</button>
-    <button type="button" mat-button (click)="reset()">Limpar</button>
-    </div>
-    </form>
-    </mat-card>
-  `,
-  styles: [`.grid{display:grid;gap:12px;grid-template-columns:1fr 200px}.actions{display:flex;gap:8px}`]
+  standalone: true,
+  imports: [
+    CommonModule,
+    MatCardModule,
+    MatFormFieldModule,
+    ReactiveFormsModule,
+  ],
+  templateUrl: './secretaria-form.component.html',
+  styleUrls: ['./secretaria-form.component.scss']
 })
 export class SecretariaFormComponent implements OnChanges {
   @Input() editing?: Secretaria | null;

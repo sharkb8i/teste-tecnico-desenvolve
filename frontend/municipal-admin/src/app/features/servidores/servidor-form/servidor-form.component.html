@@ -1,0 +1,36 @@
+<mat-card>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="grid">
+    <mat-form-field appearance="outline">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome" required>
+      <mat-error *ngIf="form.get('nome')?.hasError('required')">Obrigatório</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>E-mail</mat-label>
+      <input matInput type="email" formControlName="email" required>
+      <mat-error *ngIf="form.get('email')?.hasError('required')">Obrigatório</mat-error>
+      <mat-error *ngIf="form.get('email')?.hasError('email')">E-mail inválido</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Data de Nascimento</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="dataNascimentoDate" required>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="form.get('dataNascimentoDate')?.hasError('ageOutOfRange')">Idade deve ser entre 18 e 75</mat-error>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Secretaria</mat-label>
+      <mat-select formControlName="secretariaId" required>
+      <mat-option *ngFor="let s of secretarias" [value]="s.id">{{s.nome}} ({{s.sigla}})</mat-option>
+      </mat-select>
+      <mat-error *ngIf="form.get('secretariaId')?.hasError('required')">Obrigatório</mat-error>
+    </mat-form-field>
+
+    <div class="actions">
+      <button mat-raised-button color="primary" [disabled]="form.invalid">{{editing ? 'Salvar' : 'Cadastrar'}}</button>
+      <button type="button" mat-button (click)="reset()">Limpar</button>
+    </div>
+  </form>
+</mat-card>
