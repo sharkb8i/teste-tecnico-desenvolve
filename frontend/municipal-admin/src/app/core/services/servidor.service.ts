@@ -11,6 +11,6 @@ export class ServidorService {
 
   list(): Observable<Servidor[]> { return this.http.get<Servidor[]>(this.base); }
   create(payload: Servidor): Observable<Servidor> { return this.http.post<Servidor>(this.base, payload); }
-  update(payload: Servidor): Observable<Servidor> { return this.http.put<Servidor>(this.base, payload); }
+  update(payload: Servidor): Observable<Servidor> { return this.http.put<Servidor>(`${this.base}/${payload.id}`, payload); }
   delete(id: number): Observable<void> { return this.http.delete<void>(`${this.base}/${id}`); }
 }
