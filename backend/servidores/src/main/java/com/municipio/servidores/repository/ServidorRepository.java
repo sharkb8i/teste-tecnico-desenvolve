@@ -19,5 +19,5 @@ public interface ServidorRepository extends JpaRepository<Servidor, Long> {
 
     List<Servidor> findBySecretariaId(Long secretariaId);
 
-    boolean existByEmailAndIdNot(String email, Long id);
+    boolean existsByEmailAndIdNot(String email, Long id);
 }

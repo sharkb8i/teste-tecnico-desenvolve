@@ -40,7 +40,7 @@ public class ServidorService {
         Servidor existente = findById(id);
 
         if(!existente.getEmail().equals(servidor.getEmail()) &&
-            servidorRepository.existByEmailAndIdNot(servidor.getEmail(), id)) {
+            servidorRepository.existsByEmailAndIdNot(servidor.getEmail(), id)) {
             throw new BusinessException("E-mail já está em uso por outro servidor.");
         }
 
