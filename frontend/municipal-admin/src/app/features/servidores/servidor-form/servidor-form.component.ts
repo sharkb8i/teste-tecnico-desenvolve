@@ -55,7 +55,7 @@ export class ServidorFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['editing']) {
+    if (changes['editing'] && this.editing) {
       const e = this.editing;
       this.form.reset({
         id: e?.id ?? null,
@@ -81,7 +81,7 @@ export class ServidorFormComponent implements OnChanges {
 
     const req = payload.id ? this.servidores.update(payload) : this.servidores.create(payload);
     req.subscribe({
-      next: _ => { this.snack.open('Servidor salvo', 'OK', { duration: 2500 }); this.completed.emit(); this.reset(); },
+      next: _ => { this.snack.open('Servidor salvo', 'OK', { duration: 2500 }); this.completed.emit(); if (!payload.id) this.reset(); },
       error: _ => {}
     });
   }

@@ -28,7 +28,7 @@ export class SecretariaFormComponent implements OnChanges {
 
   form: FormGroup;
 
-  constructor(private fb: FormBuilder, private api: SecretariaService, private snack: MatSnackBar) {
+  constructor(private fb: FormBuilder, private secretarias: SecretariaService, private snack: MatSnackBar) {
     this.form = this.fb.group({
       id: [null],
       nome: ['', Validators.required],
@@ -37,16 +37,27 @@ export class SecretariaFormComponent implements OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes['editing']) {
-      this.form.reset(this.editing ?? { id: null, nome: '', sigla: '' });
+    if (changes['editing'] && this.editing) {
+      const e = this.editing;
+      this.form.reset({
+        id: e?.id ?? null,
+        nome: e?.nome ?? '',
+        sigla: e?.sigla ?? '',
+      });
     }
   }
 
   onSubmit() {
-    const value = this.form.value as Secretaria;
-    const req = value.id ? this.api.update(value) : this.api.create(value);
+    const v = this.form.value;
+    const payload: Secretaria = {
+      id: v.id ?? undefined,
+      nome: v.nome!,
+      sigla: v.sigla!,
+    };
+
+    const req = payload.id ? this.secretarias.update(payload) : this.secretarias.create(payload);
     req.subscribe({
-      next: _ => { this.snack.open('Secretaria salva', 'OK', { duration: 2500 }); this.completed.emit(); this.reset(); },
+      next: _ => { this.snack.open('Secretaria salva', 'OK', { duration: 2500 }); this.completed.emit(); if (!payload.id) this.reset(); },
       error: _ => {}
     });
   }
