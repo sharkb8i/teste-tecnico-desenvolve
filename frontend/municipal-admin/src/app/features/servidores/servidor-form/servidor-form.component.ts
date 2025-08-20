@@ -62,7 +62,7 @@ export class ServidorFormComponent implements OnChanges {
         nome: e?.nome ?? '',
         email: e?.email ?? '',
         dataNascimentoDate: e?.dataNascimento ? new Date(e.dataNascimento) : null,
-        secretariaId: e?.secretariaId ?? null,
+        secretariaId: e.secretaria?.id! ?? null
       });
     }
   }
