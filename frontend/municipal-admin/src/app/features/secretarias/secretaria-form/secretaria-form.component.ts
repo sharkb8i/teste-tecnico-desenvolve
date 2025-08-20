@@ -63,4 +63,8 @@ export class SecretariaFormComponent implements OnChanges {
   }
 
   reset(){ this.form.reset({ id: null, nome: '', sigla: '' }); }
+  
+  clean() {
+    this.form.reset({ id: null, nome: '', sigla: '' }, { emitEvent: false }); 
+  }
 }

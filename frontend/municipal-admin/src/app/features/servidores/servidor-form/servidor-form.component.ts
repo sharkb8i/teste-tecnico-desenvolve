@@ -87,4 +87,8 @@ export class ServidorFormComponent implements OnChanges {
   }
 
   reset(){ this.form.reset({ id:null, nome:'', email:'', dataNascimentoDate:null, secretariaId:null }); }
+  
+  clean() {
+    this.form.reset({ id: null, nome: '', sigla: '' }, { emitEvent: false }); 
+  }
 }
