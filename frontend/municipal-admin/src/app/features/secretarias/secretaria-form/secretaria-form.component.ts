@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Secretaria } from '../../../core/models/secretaria.model';
@@ -15,6 +16,7 @@ import { SecretariaService } from '../../../core/services/secretaria.service';
     CommonModule,
     MatCardModule,
     MatFormFieldModule,
+    MatInputModule,
     ReactiveFormsModule,
   ],
   templateUrl: './secretaria-form.component.html',
