@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.municipio.servidores.dtos.ServidorDTO;
 import com.municipio.servidores.entity.Servidor;
 import com.municipio.servidores.service.ServidorService;
 
@@ -46,17 +47,17 @@ public class ServidorController {
     }
     
     @PostMapping
-    public ResponseEntity<Servidor> criar(@Valid @RequestBody Servidor servidor) {
+    public ResponseEntity<Servidor> criar(@Valid @RequestBody ServidorDTO servidor) {
         log.info("Criando novo servidor: {}", servidor.getNome());
-        Servidor novoServidor = servidorService.save(servidor);
+        Servidor novoServidor = servidorService.save(servidorService.toEntity(servidor));
         return ResponseEntity.status(HttpStatus.CREATED).body(novoServidor);
     }
     
     @PutMapping("/{id}")
     public ResponseEntity<Servidor> atualizar(@PathVariable Long id, 
-                                            @Valid @RequestBody Servidor servidor) {
+                                              @Valid @RequestBody ServidorDTO servidor) {
         log.info("Atualizando servidor com ID: {}", id);
-        Servidor servidorAtualizado = servidorService.update(id, servidor);
+        Servidor servidorAtualizado = servidorService.update(id, servidorService.toEntity(servidor));
         return ResponseEntity.ok(servidorAtualizado);
     }
     

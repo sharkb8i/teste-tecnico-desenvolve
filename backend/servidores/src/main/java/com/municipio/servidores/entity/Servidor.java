@@ -44,7 +44,7 @@ public class Servidor {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @NotBlank(message = "Data de nascimento é obrigatória")
+    @NotNull(message = "Data de nascimento é obrigatória")
     @Past(message = "Data de nascimento deve estar no passado")
     @JsonFormat(pattern = "yyyy-MM-dd")
     @Column(nullable = false)

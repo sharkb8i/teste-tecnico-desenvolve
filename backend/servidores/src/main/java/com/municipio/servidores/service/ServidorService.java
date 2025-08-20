@@ -6,9 +6,12 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.municipio.servidores.dtos.ServidorDTO;
+import com.municipio.servidores.entity.Secretaria;
 import com.municipio.servidores.entity.Servidor;
 import com.municipio.servidores.exception.BusinessException;
 import com.municipio.servidores.exception.ResourceNotFoundException;
+import com.municipio.servidores.repository.SecretariaRepository;
 import com.municipio.servidores.repository.ServidorRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,6 +22,7 @@ import lombok.RequiredArgsConstructor;
 public class ServidorService {
     
     private final ServidorRepository servidorRepository;
+    private final SecretariaRepository secretariaRepository;
 
     @Transactional(readOnly = true)
     public List<Servidor> findAll() {
@@ -60,9 +64,8 @@ public class ServidorService {
     }
 
     public void validateServidor(Servidor servidor) {
-        if (servidorRepository.findByEmail(servidor.getEmail()).isPresent()) {
+        if (servidorRepository.findByEmail(servidor.getEmail()).isPresent())
             throw new BusinessException("E-mail já está em uso.");
-        }
 
         validateIdade(servidor.getDataNascimento());
     }
@@ -71,5 +74,19 @@ public class ServidorService {
         int idade = LocalDate.now().getYear() - dataNascimento.getYear();
         if (idade < 18 || idade > 75)
             throw new BusinessException("Servidor deve ter entre 18 e 75 anos");
+    }
+    
+    public Servidor toEntity(ServidorDTO dto) {
+        Servidor servidor = new Servidor();
+        servidor.setNome(dto.getNome());
+        servidor.setEmail(dto.getEmail());
+        servidor.setDataNascimento(dto.getDataNascimento());
+
+        Secretaria secretaria = secretariaRepository.findById(dto.getSecretariaId())
+            .orElseThrow(() -> new RuntimeException("Secretaria não encontrada"));
+        
+        servidor.setSecretaria(secretaria);
+
+        return servidor;
     }
 }
