@@ -1,10 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 
 import { Secretaria } from '../../../core/models/secretaria.model';
@@ -33,15 +34,27 @@ export class SecretariaListComponent implements OnInit {
   cols = ['nome','sigla','acoes'];
   editing: Secretaria | null = null;
 
-  constructor(private api: SecretariaService, private snack: MatSnackBar) {}
+  @ViewChild(MatPaginator) paginator!: MatPaginator;
+  @ViewChild(MatSort) sort!: MatSort;
+
+  constructor(
+    private secretarias: SecretariaService,
+    private snack: MatSnackBar
+  ) {}
   
   ngOnInit(){ this.load(); }
   
-  load(){ this.api.list().subscribe(res => { this.data.data = res; this.editing = null; }); }
+  load(){
+    this.secretarias.list().subscribe(res => {
+      this.data.data = res;
+      Promise.resolve().then(() => { this.data.paginator = this.paginator; this.data.sort = this.sort; });
+      this.editing = null;
+    });
+  }
   edit(row: Secretaria){ this.editing = { ...row }; }
   remove(row: Secretaria){
     if (!row.id) return;
-    this.api.delete(row.id).subscribe({ next: _ => { this.snack.open('Removido','OK',{duration:2000}); this.load(); } });
+    this.secretarias.delete(row.id).subscribe({ next: _ => { this.snack.open('Removido','OK',{duration:2000}); this.load(); } });
   }
   export(){ exportToCsv('secretarias.csv', this.data.data); }
 }

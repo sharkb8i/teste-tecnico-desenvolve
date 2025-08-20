@@ -40,7 +40,6 @@ export class ServidorListComponent implements OnInit {
 
   constructor(
     private servidores: ServidorService,
-    private secretarias: SecretariaService,
     private snack: MatSnackBar
   ) {}
 
@@ -48,14 +47,16 @@ export class ServidorListComponent implements OnInit {
 
   load(){
     this.servidores.list().subscribe(res => {
-      // Caso o backend não expanda secretaria, poderíamos montar via map usando secretarias.list()
       this.data.data = res;
       Promise.resolve().then(() => { this.data.paginator = this.paginator; this.data.sort = this.sort; });
       this.editing = null;
     });
   }
   edit(row: Servidor){ this.editing = { ...row }; }
-  remove(row: Servidor){ if(row.id) this.servidores.delete(row.id).subscribe(_ => { this.snack.open('Removido','OK',{duration:2000}); this.load(); }); }
+  remove(row: Servidor){ 
+    if (!row.id) return;
+    this.servidores.delete(row.id).subscribe(_ => { this.snack.open('Removido','OK',{duration:2000}); this.load(); }); 
+  }
   export(){
     const rows = this.data.data.map(r => ({
       nome: r.nome,
