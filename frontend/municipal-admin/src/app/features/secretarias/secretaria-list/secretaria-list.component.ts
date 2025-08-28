@@ -54,7 +54,16 @@ export class SecretariaListComponent implements OnInit {
   edit(row: Secretaria){ this.editing = { ...row }; }
   remove(row: Secretaria){
     if (!row.id) return;
-    this.secretarias.delete(row.id).subscribe({ next: _ => { this.snack.open('Removido','OK',{duration:2000}); this.load(); } });
+    this.secretarias.delete(row.id).subscribe({
+      next: _ => {
+        this.snack.open('Removido','OK',{duration:2000});
+        this.load();
+      },
+      error: (err: any) => {
+        const msg = err?.error?.message || 'Erro ao remover';
+        this.snack.open(msg, 'OK', { duration: 4000 });
+      }
+    });
   }
   export(){ exportToCsv('secretarias.csv', this.data.data); }
 }
