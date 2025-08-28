@@ -1,9 +1,11 @@
 import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -19,9 +21,11 @@ import { ageRangeValidator } from './age.validator';
   standalone: true,
   imports: [
     CommonModule,
+    MatButtonModule,
     MatCardModule,
     MatDatepickerModule,
     MatFormFieldModule,
+    MatIconModule,
     MatInputModule,
     MatSelectModule,
     ReactiveFormsModule,
@@ -68,7 +72,7 @@ export class ServidorFormComponent implements OnChanges {
   }
 
   loadSecretarias(){ this.secretariasSvc.list().subscribe(r => this.secretarias = r); }
-
+  
   onSubmit(){
     const v = this.form.value;
     const payload: Servidor = {
@@ -89,6 +93,6 @@ export class ServidorFormComponent implements OnChanges {
   reset(){ this.form.reset({ id:null, nome:'', email:'', dataNascimentoDate:null, secretariaId:null }); }
   
   clean() {
-    this.form.reset({ id: null, nome: '', sigla: '' }, { emitEvent: false }); 
+    this.form.reset({ id:null, nome:'', email:'', dataNascimentoDate:'', secretariaId:'' }, { emitEvent: false }); 
   }
 }

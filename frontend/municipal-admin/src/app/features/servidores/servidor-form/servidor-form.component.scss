@@ -10,7 +10,23 @@
   }
 }
 
-.actions{
+.actions {
+  grid-column: 1 / -1;
   display: flex;
-  gap: 8px;
+  justify-content: flex-end;
+  gap: 12px;
+
+  .action-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 500;
+  }
+}
+
+mat-card {
+  box-shadow: none !important;
+  border: none !important;
+  background: transparent;
+  padding: 0;
 }

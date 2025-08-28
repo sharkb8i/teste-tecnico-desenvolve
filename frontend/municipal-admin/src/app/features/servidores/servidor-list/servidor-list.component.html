@@ -1,39 +1,65 @@
-<mat-card>
+<mat-card class="servidores-card">
   <div class="header">
-    <h2>Servidores</h2>
+    <h2 class="title">Servidores</h2>
     <span class="spacer"></span>
-    <button mat-stroked-button (click)="export()">Exportar CSV</button>
+    <button mat-flat-button color="primary" (click)="export()">
+      <mat-icon>download</mat-icon>
+      Exportar CSV
+    </button>
   </div>
 
   <app-servidor-form (completed)="load()" [editing]="editing"></app-servidor-form>
 
-  <table mat-table [dataSource]="data" matSort class="mat-elevation-z2">
-    <ng-container matColumnDef="nome">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
-      <td mat-cell *matCellDef="let r"> {{r.nome}} </td>
-    </ng-container>
-    <ng-container matColumnDef="email">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
-      <td mat-cell *matCellDef="let r"> {{r.email}} </td>
-    </ng-container>
-    <ng-container matColumnDef="dataNascimento">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Nascimento </th>
-      <td mat-cell *matCellDef="let r"> {{r.dataNascimento | date:'dd/MM/yyyy'}} </td>
-    </ng-container>
-    <ng-container matColumnDef="secretaria">
-      <th mat-header-cell *matHeaderCellDef> Secretaria </th>
-      <td mat-cell *matCellDef="let r"> {{r.secretaria?.nome}} ({{r.secretaria?.sigla}}) </td>
-    </ng-container>
-    <ng-container matColumnDef="acoes">
-      <th mat-header-cell *matHeaderCellDef> Ações </th>
-      <td mat-cell *matCellDef="let r">
-        <button mat-icon-button (click)="edit(r)"><mat-icon>edit</mat-icon></button>
-        <button mat-icon-button color="warn" (click)="remove(r)"><mat-icon>delete</mat-icon></button>
-      </td>
-    </ng-container>
+  <div class="table-container">
+    <table mat-table [dataSource]="data" matSort class="mat-elevation-z2 modern-table">
+      <!-- Nome -->
+      <ng-container matColumnDef="nome">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nome </th>
+        <td mat-cell *matCellDef="let r"> {{ r.nome }} </td>
+      </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="cols"></tr>
-    <tr mat-row *matRowDef="let row; columns: cols;"></tr>
-  </table>
-  <mat-paginator [length]="data.data.length" [pageSize]="5" [pageSizeOptions]="[5,10,20]"></mat-paginator>
+      <!-- Email -->
+      <ng-container matColumnDef="email">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+        <td mat-cell *matCellDef="let r"> {{ r.email }} </td>
+      </ng-container>
+
+      <!-- Data de Nascimento -->
+      <ng-container matColumnDef="dataNascimento">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nascimento </th>
+        <td mat-cell *matCellDef="let r">
+          {{ r.dataNascimento | date: 'dd/MM/yyyy' }}
+        </td>
+      </ng-container>
+
+      <!-- Secretaria -->
+      <ng-container matColumnDef="secretaria">
+        <th mat-header-cell *matHeaderCellDef> Secretaria </th>
+        <td mat-cell *matCellDef="let r">
+          {{ r.secretaria?.nome }} ({{ r.secretaria?.sigla }})
+        </td>
+      </ng-container>
+
+      <!-- Ações -->
+      <ng-container matColumnDef="acoes">
+        <th mat-header-cell *matHeaderCellDef> Ações </th>
+        <td mat-cell *matCellDef="let r" class="actions-cell">
+          <button mat-icon-button color="primary" (click)="edit(r)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="remove(r)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="cols"></tr>
+      <tr mat-row *matRowDef="let row; columns: cols;"></tr>
+    </table>
+  </div>
+
+  <mat-paginator [length]="data.data.length"
+                 [pageSize]="5"
+                 [pageSizeOptions]="[5,10,20]">
+  </mat-paginator>
 </mat-card>
